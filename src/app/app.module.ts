@@ -15,6 +15,10 @@ import { ProjectStorylineComponent } from './components/project-storyline/projec
 import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
 import { EditProjectStorylinePageComponent } from './pages/edit-project-storyline-page/edit-project-storyline-page.component';
 
+// angular material
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,8 @@ import { EditProjectStorylinePageComponent } from './pages/edit-project-storylin
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
