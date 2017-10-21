@@ -19,6 +19,12 @@ import { EditProjectStorylinePageComponent } from './pages/edit-project-storylin
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
+// angular fire
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { firebaseConfig } from './firebase-config';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +43,9 @@ import { MaterialModule } from './material.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
     MaterialModule
   ],
   providers: [],

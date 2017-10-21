@@ -8,4 +8,16 @@ $ firebase init
 $ firebase deploy
 ```
 
+Add firebase config file to `src/firebase-config.ts`
+```javascript
+export const firebaseConfig = {
+  apiKey: '<your-key>',
+  authDomain: '<your-project-authdomain>',
+  databaseURL: '<your-database-URL>',
+  projectId: '<your-project-id>',
+  storageBucket: '<your-storage-bucket>',
+  messagingSenderId: '<your-messaging-sender-id>'
+};
+```
+
 If you want more UI components from angular material library, import them in `material.module.ts`
