@@ -1,5 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
@@ -28,6 +30,7 @@ import { ProjectPreviewCardComponent } from './components/project-preview-card/p
 import { ProjectHeaderComponent } from './components/project-header/project-header.component';
 import { ProjectStorylineComponent } from './components/project-storyline/project-storyline.component';
 import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
+import { AdminAuthDialogComponent } from './components/admin-auth-dialog/admin-auth-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,16 +46,22 @@ import { ProjectStorylineComponentComponent } from './components/project-storyli
     ProjectPreviewCardComponent,
     ProjectHeaderComponent,
     ProjectStorylineComponent,
-    ProjectStorylineComponentComponent
+    ProjectStorylineComponentComponent,
+    AdminAuthDialogComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     CoreModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule
+  ],
+  entryComponents: [
+    AdminAuthDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

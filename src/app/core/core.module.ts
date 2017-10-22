@@ -12,6 +12,7 @@ import { ProjectService } from './project.service';
     AngularFireAuthModule,
     AngularFirestoreModule
   ],
+  exports: [],
   providers: [
     AuthService,
     ProjectService

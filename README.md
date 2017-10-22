@@ -20,4 +20,9 @@ export const firebaseConfig = {
 };
 ```
 
+Enable firestore database
+
+Enable email and password authentication (for your admin user)
+Enable anonymous authentication (for your guests)
+
 If you want more UI components from angular material library, import them in `material.module.ts`

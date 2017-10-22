@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { ProjectService } from '../../core/project.service';
 import { Project } from '../../../models/project';
 
 @Component({
@@ -18,9 +19,10 @@ export class HomePageComponent implements OnInit {
 
   public projects: Observable<Project[]>;
 
-  constructor() { }
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit() {
+    this.projects = this.projectService.getProjects();
   }
 
 }

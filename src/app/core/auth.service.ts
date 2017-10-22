@@ -31,6 +31,23 @@ export class AuthService {
       });
   }
 
+  public adminSignUp(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  public saveAdminUid(uid: string) {
+    const adminConfigDocRef = this.afs.doc('config/admin');
+    return adminConfigDocRef.set({ adminUid: uid });
+  }
+
+  public adminLogin(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  public anonymousLogin(): Promise<any> {
+    return this.afAuth.auth.signInAnonymously();
+  }
+
   public githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider();
     return this.oAuthLogin(provider);
@@ -38,7 +55,7 @@ export class AuthService {
 
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
-      .then(credential => this.updateUserDate(credential.user));
+      .then(credential => this.updateUserData(credential.user));
   }
 
   private updateUserData(user) {
