@@ -49,7 +49,12 @@ export class AuthService {
   }
 
   public adminLoggedIn(): Observable<boolean> {
-    return Observable.of(true);
+    const currentUserUid = this.afAuth.auth.currentUser.uid;
+    const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
+
+    return adminConfigDocRef.valueChanges()
+      .map(config =>
+        !!config && !!config.adminUid && ( config.adminUid === currentUserUid ));
   }
 
   public adminLogin(email: string, password: string): Promise<any> {
@@ -59,7 +64,6 @@ export class AuthService {
   public anonymousLogin(): Promise<any> {
     return this.afAuth.auth.signInAnonymously();
   }
-  public isAdmin(user) { return true; }
 
   public githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider();
