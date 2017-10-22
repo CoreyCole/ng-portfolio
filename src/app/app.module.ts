@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material.module';
 
+// other 3rd party components
+import { TagInputModule } from 'ngx-chips';
+
 // angular fire
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -31,6 +34,7 @@ import { ProjectStorylineComponent } from './components/project-storyline/projec
 import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
 import { AdminAuthDialogComponent } from './components/admin-auth-dialog/admin-auth-dialog.component';
 import { ScrollToolbarComponent } from './components/scroll-toolbar/scroll-toolbar.component';
+import { EditProjectStorylineComponent } from './components/edit-project-storyline/edit-project-storyline.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +51,8 @@ import { ScrollToolbarComponent } from './components/scroll-toolbar/scroll-toolb
     ProjectStorylineComponent,
     ProjectStorylineComponentComponent,
     AdminAuthDialogComponent,
-    ScrollToolbarComponent
+    ScrollToolbarComponent,
+    EditProjectStorylineComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,7 @@ import { ScrollToolbarComponent } from './components/scroll-toolbar/scroll-toolb
     AngularFirestoreModule,
     AngularFireAuthModule,
     MaterialModule,
+    TagInputModule,
     BrowserAnimationsModule
   ],
   entryComponents: [

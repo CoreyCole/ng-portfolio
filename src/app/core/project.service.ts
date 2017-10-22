@@ -23,39 +23,32 @@ export class ProjectService {
     return projectRef.valueChanges();
   }
 
-  public createProject(params: Object) {
+  public createProject(params: Object): string {
     const projectId = this.afs.createId();
-    this.auth.adminLoggedIn()
-      .filter(isAdmin => isAdmin)
-      .subscribe(() => {
-        const project: Project = {
-          projectId: projectId,
-          title: params['title'],
-          description: params['description'],
-          image: params['image'],
-          skillTags: params['skillTags']
-        };
-        const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
+    const project: Project = {
+      projectId: projectId,
+      title: params['title'],
+      description: params['description'],
+      image: params['image'],
+      skillTags: params['skillTags']
+    };
+    const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
 
-        return projectRef.set(project);
-      });
+    projectRef.set(project);
+    return projectId;
   }
 
   public updateProject(params: Object) {
-    this.auth.adminLoggedIn()
-      .filter(isAdmin => isAdmin)
-      .subscribe(() => {
-        const project: Project = {
-          projectId: params['projectId'],
-          title: params['title'],
-          description: params['description'],
-          image: params['image'],
-          skillTags: params['skillTags']
-        };
-        const projectRef = this.afs.doc<Project>(`projects/${params['projectId']}`);
+    const project: Project = {
+      projectId: params['projectId'],
+      title: params['title'],
+      description: params['description'],
+      image: params['image'],
+      skillTags: params['skillTags']
+    };
+    const projectRef = this.afs.doc<Project>(`projects/${params['projectId']}`);
 
-        return projectRef.update(project);
-      });
+    return projectRef.update(project);
   }
 
   public addProjectStorylineComponent(projectId: string, type: string, data: StorylineParams) {

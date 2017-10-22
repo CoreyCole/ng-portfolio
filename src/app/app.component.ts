@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
 
 // angular material
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -14,33 +17,37 @@ import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'app-root',
+  styleUrls: ['./app.component.scss'],
   template: `
-    <mat-toolbar color="warn" *ngIf="error">
-      {{ error }}
-    </mat-toolbar>
-    <mat-toolbar color="warn" *ngIf="!adminExists">
-      <span>No admin registered</span>
-      <span class="spacer"></span>
-      <button mat-raised-button color="primary" (click)="openAdminSignUpDialog()">
-        Login
-      </button>
-    </mat-toolbar>
-    <app-scroll-toolbar title="Corey Cole"></app-scroll-toolbar>
-    <router-outlet></router-outlet>
-    <mat-toolbar color="warn" *ngIf="adminExists" class="footer">
-      <span class="spacer"></span>
-      <span *ngIf="adminIsLoggedIn">
-        <button mat-raised-button color="primary" routerLink="/edit/new">Create Project</button>
-      </span>
-      <span *ngIf="!adminIsLoggedIn" >
-        <i class="fa fa-lock" aria-hidden="true" (click)="openAdminSignInDialog()"></i>
-      </span>
-      <span *ngIf="adminIsLoggedIn">
-        <i class="fa fa-unlock-alt" aria-hidden="true" (click)="auth.signOut()"></i>
-      </span>
-    </mat-toolbar>
-  `,
-  styleUrls: ['./app.component.scss']
+    <div class="app-root">
+      <mat-toolbar color="warn" *ngIf="error">
+        {{ error }}
+      </mat-toolbar>
+      <mat-toolbar color="warn" *ngIf="!adminExists">
+        <span>No admin registered</span>
+        <span class="spacer"></span>
+        <button mat-raised-button color="primary" (click)="openAdminSignUpDialog()">
+          Login
+        </button>
+      </mat-toolbar>
+      <app-scroll-toolbar title="Corey Cole"></app-scroll-toolbar>
+      <router-outlet></router-outlet>
+      <footer class="footer">
+        <mat-toolbar color="warn" *ngIf="adminExists">
+          <span class="spacer"></span>
+          <span *ngIf="adminIsLoggedIn && onHomePage">
+            <button mat-raised-button color="primary" routerLink="/edit/new">Create Project</button>
+          </span>
+          <span *ngIf="!adminIsLoggedIn" >
+            <i class="fa fa-lock" aria-hidden="true" (click)="openAdminSignInDialog()"></i>
+          </span>
+          <span *ngIf="adminIsLoggedIn">
+            <i class="fa fa-unlock-alt" aria-hidden="true" (click)="auth.signOut()"></i>
+          </span>
+        </mat-toolbar>
+      </footer>
+    </div>
+  `
 })
 export class AppComponent {
 
@@ -49,16 +56,25 @@ export class AppComponent {
   public error: string;
   public adminExists = true;
   public adminIsLoggedIn = false;
+  public onHomePage = false;
 
   // for testing
   public items: Observable<any[]>;
 
-  constructor(private db: AngularFirestore,
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private afs: AngularFirestore,
               private auth: AuthService,
               private dialog: MatDialog) {
-    this.items = db.collection('items').valueChanges();
-    this.auth.adminUserExists().subscribe(adminExists => this.adminExists = adminExists);
-    this.auth.adminLoggedIn().subscribe(adminIsLoggedIn => this.adminIsLoggedIn = adminIsLoggedIn);
+    this.auth.adminUserExists()
+      .subscribe(adminExists => this.adminExists = adminExists);
+    this.auth.adminLoggedIn()
+      .subscribe(adminIsLoggedIn => this.adminIsLoggedIn = adminIsLoggedIn);
+    this.router.events
+      .filter(event => event instanceof RoutesRecognized)
+      .map(event => event['url'])
+      .map(path => (path === '/') as boolean)
+      .subscribe(onHomePage => this.onHomePage = onHomePage);
   }
 
   public openAdminSignUpDialog() {

@@ -7,14 +7,14 @@ import { Project } from '../../../models/project';
   selector: 'app-project-gallery',
   styleUrls: ['./project-gallery.component.scss'],
   template: `
-    <p>
-      project-gallery works!
+    <p *ngFor="let project of projects">
+      project.name
     </p>
   `
 })
 export class ProjectGalleryComponent implements OnInit {
 
-  @Input() projects: Observable<Project[]>;
+  @Input() projects: Project[];
 
   constructor() { }
 

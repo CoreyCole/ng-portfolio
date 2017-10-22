@@ -8,7 +8,7 @@ $ firebase init
 $ firebase deploy
 ```
 
-Add firebase config file to `src/firebase-config.ts`
+Add firebase config file to `src/core/firebase-config.ts`
 ```javascript
 export const firebaseConfig = {
   apiKey: '<your-key>',
