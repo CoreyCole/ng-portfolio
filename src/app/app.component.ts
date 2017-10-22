@@ -26,35 +26,18 @@ import { AuthService } from './core/auth.service';
       </button>
     </mat-toolbar>
     <app-scroll-toolbar title="Corey Cole"></app-scroll-toolbar>
-    <h3>Basic Buttons</h3>
-    <div>
-      <button mat-button>Basic</button>
-      <button mat-button color="primary">Primary</button>
-      <button mat-button color="accent">Accent</button>
-      <button mat-button color="warn">Warn</button>
-      <button mat-button disabled>Disabled</button>
-      <a mat-button routerLink=".">Link</a>
-    </div>
-
-    <h3>Raised Buttons</h3>
-    <div>
-      <button mat-raised-button>Basic</button>
-      <button mat-raised-button color="primary">Primary</button>
-      <button mat-raised-button color="accent">Accent</button>
-      <button mat-raised-button color="warn">Warn</button>
-      <button mat-raised-button disabled>Disabled</button>
-      <a mat-raised-button routerLink=".">Link</a>
-    </div>
-    <ul *ngFor="let itemDoc of items | async">
-      <li *ngFor="let itemIndex of keys(itemDoc)">
-        {{itemIndex}} : {{itemDoc[itemIndex]}}
-      </li>
-    </ul>
     <router-outlet></router-outlet>
-    <mat-toolbar color="warn" *ngIf="adminExists">
+    <mat-toolbar color="warn" *ngIf="adminExists" class="footer">
       <span class="spacer"></span>
-      <i class="fa fa-lock" aria-hidden="true" *ngIf="!adminIsLoggedIn" (click)="openAdminSignInDialog()"></i>
-      <i class="fa fa-unlock-alt" aria-hidden="true" *ngIf="adminIsLoggedIn" (click)="auth.signOut()"></i>
+      <span *ngIf="adminIsLoggedIn">
+        <button mat-raised-button color="primary" routerLink="/edit/new">Create Project</button>
+      </span>
+      <span *ngIf="!adminIsLoggedIn" >
+        <i class="fa fa-lock" aria-hidden="true" (click)="openAdminSignInDialog()"></i>
+      </span>
+      <span *ngIf="adminIsLoggedIn">
+        <i class="fa fa-unlock-alt" aria-hidden="true" (click)="auth.signOut()"></i>
+      </span>
     </mat-toolbar>
   `,
   styleUrls: ['./app.component.scss']

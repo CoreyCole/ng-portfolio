@@ -8,7 +8,7 @@ import { Project } from '../../../models/project';
   selector: 'app-home-page',
   styleUrls: ['./home-page.component.scss'],
   template: `
-    <div class="header">
+    <div class="header push-up">
       <app-intro-card></app-intro-card>
       <div class="spacing"></div>
     </div>
