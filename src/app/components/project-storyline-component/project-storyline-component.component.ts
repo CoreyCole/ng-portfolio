@@ -7,7 +7,7 @@ import { StorylineParams } from '../../../models/storyline-params';
   styleUrls: ['./project-storyline-component.component.scss'],
   template: `
     <div class="text" *ngIf="component.type === 'text'">
-      <pre>{{ component.data.text }}</pre>
+      <p>{{ component.data.text }}</p>
     </div>
     <mat-card class="code" *ngIf="component.type === 'code'">
       <mat-card-content highlight-js-content=".highlight">
