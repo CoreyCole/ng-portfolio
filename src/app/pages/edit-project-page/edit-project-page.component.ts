@@ -29,7 +29,7 @@ import { StorylineParams } from '../../../models/storyline-params';
         <button mat-raised-button color="primary"
             *ngIf="currentProject.projectId === 'new'"
             [disabled]="!currentProject.title"
-            (click)="projectService.createProject(currentProject)">
+            (click)="createProject()">
           Create Project
         </button>
         <button mat-raised-button color="primary"
@@ -39,7 +39,7 @@ import { StorylineParams } from '../../../models/storyline-params';
         </button>
       </mat-card>
       <mat-card *ngIf="newStoryline">
-        <app-edit-project-storyline (onSave)="saveStorylineComponent(params)"></app-edit-project-storyline>
+        <app-edit-project-storyline (onSave)="saveStorylineComponent($event)"></app-edit-project-storyline>
       </mat-card>
       <button mat-raised-button color="accent"
           *ngIf="currentProject.projectId !== 'new' && !newStoryline"
@@ -68,6 +68,7 @@ export class EditProjectPageComponent implements OnInit {
       image: '',
       skillTags: []
     };
+    this.project$ = Observable.of(this.currentProject);
     this.route.paramMap
       .map((params: ParamMap) => params.get('projectId'))
       .subscribe(projectId => {
@@ -81,8 +82,7 @@ export class EditProjectPageComponent implements OnInit {
 
   public createProject() {
     const newProjectId = this.projectService.createProject(this.currentProject);
-    console.log(newProjectId)
-    // this.router.navigate(['edit', { projectId: newProjectId }]);
+    this.router.navigate([`edit/${newProjectId}`]);
   }
 
   public updateProject() {

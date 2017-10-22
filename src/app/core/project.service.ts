@@ -33,8 +33,8 @@ export class ProjectService {
       skillTags: params['skillTags']
     };
     const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
-
     projectRef.set(project);
+
     return projectId;
   }
 
