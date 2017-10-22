@@ -29,6 +29,9 @@ const STORYLINE_TYPES = ['text', 'code', 'image'];
       </div>
       <div *ngIf="params.type === 'image'">
         <mat-form-field class="full-width">
+          <input matInput [(ngModel)]='params.data.imageCaption' placeholder="image caption" name="caption" value="">
+        </mat-form-field>
+        <mat-form-field class="full-width">
           <input matInput [(ngModel)]='params.data.imageUrl' placeholder="image url" name="image" value="">
         </mat-form-field>
       </div>

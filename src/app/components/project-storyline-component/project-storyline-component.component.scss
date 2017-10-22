@@ -1,0 +1,19 @@
+div.text {
+  padding: 16px;
+}
+
+mat-card.img {
+  height: 100%;
+}
+
+mat-card.code, mat-card code {
+  padding: 0;
+}
+
+mat-card.code pre {
+  margin-left: 16px;
+}
+
+mat-card.code code {
+  white-space: pre-line;
+}

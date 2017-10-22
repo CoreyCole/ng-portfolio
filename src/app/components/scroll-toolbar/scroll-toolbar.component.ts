@@ -6,7 +6,10 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
   template: `
     <div class="spacer"></div>
     <mat-toolbar class="sticky" color="primary">
-      <span *ngIf="scrolled">{{ title }}</span>
+      <a routerLink="/">
+        <app-logo></app-logo>
+        <span class="title" *ngIf="scrolled">{{ title }}</span>
+      </a>
     </mat-toolbar>
     <mat-toolbar color="primary">
       <mat-toolbar-row></mat-toolbar-row>

@@ -12,6 +12,7 @@ import { Project } from '../../../models/project';
       <app-intro-card></app-intro-card>
       <div class="spacing"></div>
     </div>
+    <h1>Projects</h1>
     <app-project-gallery [projects]="projects | async"></app-project-gallery>
   `
 })

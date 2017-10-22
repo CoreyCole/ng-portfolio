@@ -1,5 +1,7 @@
 # ng-portfolio
 
+[DEMO HERE](https://ng-portfolio-dubhacks.firebaseapp.com/)
+
 We are using firebase for hosting and content management of the portfolio projects
 ```
 $ npm install -g firebase-tools

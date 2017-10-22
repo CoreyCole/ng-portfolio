@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +16,7 @@ import { StorylineParams } from '../../../models/storyline-params';
   template: `
     <div class="project">
       <mat-card>
-        <img mat-card-image src="http://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        <img mat-card-image [src]="sanitizer.bypassSecurityTrustUrl(currentProject.image)">
         <form class="form">
           <mat-form-field class="full-width">
             <input matInput [(ngModel)]='currentProject.title' placeholder="Title" name="title" value="">
@@ -40,13 +41,11 @@ import { StorylineParams } from '../../../models/storyline-params';
           Update Project
         </button>
       </mat-card>
-      <mat-card *ngFor="let component of currentProject.components">
-
-      </mat-card>
+      <app-project-storyline [components]="storyline$ | async"></app-project-storyline>
       <mat-card *ngIf="newStoryline">
         <app-edit-project-storyline (onSave)="saveStorylineComponent($event)"></app-edit-project-storyline>
       </mat-card>
-      <button mat-raised-button color="accent"
+      <button mat-raised-button class="add-storyline" color="accent"
           *ngIf="currentProject.projectId !== 'new' && !newStoryline"
           (click)="addStorylineComponent()">
         Add Storyline Component
@@ -64,6 +63,7 @@ export class EditProjectPageComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private afs: AngularFirestore,
+              public sanitizer: DomSanitizer,
               public projectService: ProjectService) { }
 
   ngOnInit() {
@@ -75,19 +75,16 @@ export class EditProjectPageComponent implements OnInit {
       skillTags: [],
       components: []
     };
-    this.project$ = Observable.of(this.currentProject);
-    this.storyline$ = Observable.of([]);
-    this.route.paramMap
-      .map((params: ParamMap) => params.get('projectId'))
-      .subscribe(projectId => {
-        this.currentProject.projectId = projectId;
-        if (projectId !== 'new') {
-          this.project$ = this.afs.doc<Project>(`projects/${projectId}`).valueChanges();
-          this.storyline$ = this.afs.collection<StorylineParams>(`projects/${projectId}/components`).valueChanges();
-          this.project$.subscribe(project => this.currentProject = project);
-          this.storyline$.subscribe(paramsArr => this.currentProject.components = paramsArr);
-        }
-      });
+    this.project$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
+      .mergeMap(projectId => this.projectService.getProject(projectId));
+    this.storyline$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
+      .mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId));
+
+    this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
+      .subscribe(projectId => this.currentProject.projectId = projectId);
+    this.project$
+      .filter(project => !!project)
+      .subscribe(project => this.currentProject = project);
   }
 
   public createProject() {
@@ -110,8 +107,13 @@ export class EditProjectPageComponent implements OnInit {
   }
 
   public saveStorylineComponent(newStorylineParams) {
-    newStorylineParams.rank = this.currentProject.components.length;
-    this.projectService.addProjectStorylineComponent(this.currentProject.projectId, newStorylineParams);
+    this.storyline$
+      .map(components => components.length)
+      .take(1)
+      .subscribe(rank => {
+        newStorylineParams.rank = rank;
+        this.projectService.addProjectStorylineComponent(this.currentProject.projectId, newStorylineParams);
+      });
     this.newStoryline = false;
   }
 

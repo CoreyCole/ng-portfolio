@@ -17,9 +17,9 @@ export class ProjectService {
     return projectsCollection.valueChanges();
   }
 
-  // Get project with id of projectId
-  public getProject(projectId: String) {
-    const projectRef = this.afs.collection('projects', ref => ref.where('projectId', '==', projectId));
+  // Get project with projectId
+  public getProject(projectId: String): Observable<Project> {
+    const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
     return projectRef.valueChanges();
   }
 
@@ -57,6 +57,11 @@ export class ProjectService {
     const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
     const componentsRef = projectRef.collection<StorylineParams>(`/components`);
     return componentsRef.add(params);
+  }
+
+  public getProjectStorylineComponents(projectId: string) {
+    const componentsRef = this.afs.collection<StorylineParams>(`projects/${projectId}/components`);
+    return componentsRef.valueChanges();
   }
 
 }

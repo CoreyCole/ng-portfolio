@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 
+// highlightJS for syntax highlighting
+import { HighlightJsModule, HighlightJsService } from 'angular2-highlight-js';
+
 // angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material.module';
@@ -35,6 +38,7 @@ import { ProjectStorylineComponentComponent } from './components/project-storyli
 import { AdminAuthDialogComponent } from './components/admin-auth-dialog/admin-auth-dialog.component';
 import { ScrollToolbarComponent } from './components/scroll-toolbar/scroll-toolbar.component';
 import { EditProjectStorylineComponent } from './components/edit-project-storyline/edit-project-storyline.component';
+import { LogoComponent } from './components/logo/logo.component';
 
 @NgModule({
   declarations: [
@@ -52,10 +56,12 @@ import { EditProjectStorylineComponent } from './components/edit-project-storyli
     ProjectStorylineComponentComponent,
     AdminAuthDialogComponent,
     ScrollToolbarComponent,
-    EditProjectStorylineComponent
+    EditProjectStorylineComponent,
+    LogoComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     CoreModule,
     AppRoutingModule,
@@ -64,12 +70,16 @@ import { EditProjectStorylineComponent } from './components/edit-project-storyli
     AngularFireAuthModule,
     MaterialModule,
     TagInputModule,
-    BrowserAnimationsModule
+    // highlightJS
+    HighlightJsModule
   ],
   entryComponents: [
     AdminAuthDialogComponent
   ],
-  providers: [],
+  providers: [
+    // highlightJS
+    HighlightJsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
