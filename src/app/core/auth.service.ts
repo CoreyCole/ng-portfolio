@@ -47,6 +47,7 @@ export class AuthService {
   public anonymousLogin(): Promise<any> {
     return this.afAuth.auth.signInAnonymously();
   }
+  public isAdmin(user) { return true; }
 
   public githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider();
