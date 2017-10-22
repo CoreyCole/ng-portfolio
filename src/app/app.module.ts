@@ -1,47 +1,53 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component';
-import { HomePageComponent } from './pages/home-page/home-page.component';
-import { IntroCardComponent } from './components/intro-card/intro-card.component';
-import { ProjectGalleryComponent } from './components/project-gallery/project-gallery.component';
-import { ProjectPreviewCardComponent } from './components/project-preview-card/project-preview-card.component';
-import { ProjectPageComponent } from './pages/project-page/project-page.component';
-import { ProjectHeaderComponent } from './components/project-header/project-header.component';
-import { ProjectStorylineComponent } from './components/project-storyline/project-storyline.component';
-import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
-import { EditProjectStorylinePageComponent } from './pages/edit-project-storyline-page/edit-project-storyline-page.component';
 
 // angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './core/material.module';
 
 // angular fire
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { firebaseConfig } from './firebase-config';
+import { firebaseConfig } from './core/firebase-config';
+
+// pages
+import { AppRoutingModule } from './pages/routing.module';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component';
+import { EditProjectPageComponent } from './pages/edit-project-page/edit-project-page.component';
+
+// components
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { IntroCardComponent } from './components/intro-card/intro-card.component';
+import { ProjectGalleryComponent } from './components/project-gallery/project-gallery.component';
+import { ProjectPreviewCardComponent } from './components/project-preview-card/project-preview-card.component';
+import { ProjectHeaderComponent } from './components/project-header/project-header.component';
+import { ProjectStorylineComponent } from './components/project-storyline/project-storyline.component';
+import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    SignUpPageComponent,
+    // pages
     HomePageComponent,
+    ProjectPageComponent,
+    EditProjectPageComponent,
+    // components
+    NavbarComponent,
     IntroCardComponent,
     ProjectGalleryComponent,
     ProjectPreviewCardComponent,
-    ProjectPageComponent,
     ProjectHeaderComponent,
     ProjectStorylineComponent,
-    ProjectStorylineComponentComponent,
-    EditProjectStorylinePageComponent
+    ProjectStorylineComponentComponent
   ],
   imports: [
     BrowserModule,
+    CoreModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
