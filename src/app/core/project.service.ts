@@ -13,7 +13,8 @@ export class ProjectService {
               private auth: AuthService) { }
 
   public getProjects(): Observable<Project[]> {
-    return Observable.of([]);
+    const projectsCollection = this.afs.collection<Project>('projects');
+    return projectsCollection.valueChanges();
   }
 
   public createProject(params: Object) {
