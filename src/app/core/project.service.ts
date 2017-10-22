@@ -53,13 +53,10 @@ export class ProjectService {
     return projectRef.update(project);
   }
 
-  public addProjectStorylineComponent(projectId: string, type: string, data: StorylineParams) {
+  public addProjectStorylineComponent(projectId: string, params: StorylineParams) {
     const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
     const componentsRef = projectRef.collection<StorylineParams>(`/components`);
-    return componentsRef.add({
-        type: type,
-        data: data
-    });
+    return componentsRef.add(params);
   }
 
 }
