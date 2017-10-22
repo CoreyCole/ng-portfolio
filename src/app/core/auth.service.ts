@@ -7,9 +7,11 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 import { User } from '../../models/user';
+import { AdminConfig } from '../../models/admin-config';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +40,16 @@ export class AuthService {
   public saveAdminUid(uid: string) {
     const adminConfigDocRef = this.afs.doc('config/admin');
     return adminConfigDocRef.set({ adminUid: uid });
+  }
+
+  public adminUserExists(): Observable<boolean> {
+    const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
+    return adminConfigDocRef.valueChanges()
+      .map(config => !!config && !!config.adminUid);
+  }
+
+  public adminLoggedIn(): Observable<boolean> {
+    return Observable.of(true);
   }
 
   public adminLogin(email: string, password: string): Promise<any> {

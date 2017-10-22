@@ -18,7 +18,7 @@ import { AuthService } from './core/auth.service';
     <mat-toolbar color="warn" *ngIf="error">
       {{ error }}
     </mat-toolbar>
-    <mat-toolbar color="warn">
+    <mat-toolbar color="warn" *ngIf="!adminExists">
       <span>No admin registered</span>
       <span class="spacer"></span>
       <button mat-raised-button color="primary" (click)="openAdminSingUpDialog()">
@@ -59,6 +59,7 @@ export class AppComponent {
   public email: string;
   public password: string;
   public error: string;
+  public adminExists = true;
 
   // for testing
   public items: Observable<any[]>;
@@ -67,6 +68,7 @@ export class AppComponent {
               private auth: AuthService,
               private dialog: MatDialog) {
     this.items = db.collection('items').valueChanges();
+    this.auth.adminUserExists().subscribe(adminExists => this.adminExists = adminExists);
   }
 
   public openAdminSingUpDialog() {
