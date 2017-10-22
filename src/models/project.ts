@@ -6,5 +6,5 @@ export interface Project {
   description: string;
   image: string;
   skillTags: string[];
-  components: StorylineParams[];
+  components?: StorylineParams[];
 }

@@ -17,6 +17,12 @@ export class ProjectService {
     return projectsCollection.valueChanges();
   }
 
+  // Get project with id of projectId
+  public getProject(projectId: String) {
+    const projectRef = this.afs.collection('projects', ref => ref.where('projectId', '==', projectId));
+    return projectRef.valueChanges();
+  }
+
   public createProject(params: Object) {
     const projectId = this.afs.createId();
     this.auth.adminLoggedIn()
@@ -27,22 +33,38 @@ export class ProjectService {
           title: params['title'],
           description: params['description'],
           image: params['image'],
-          skillTags: params['skillTags'],
-          components: params['components']
+          skillTags: params['skillTags']
         };
         const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
+
         return projectRef.set(project);
       });
   }
 
-  // Get project with id of projectId
-  public getProject(projectId: String) {
-    const projectRef = this.afs.collection('projects', ref => ref.where('projectId', '==', projectId));
-    return projectRef.valueChanges();
+  public updateProject(params: Object) {
+    this.auth.adminLoggedIn()
+      .filter(isAdmin => isAdmin)
+      .subscribe(() => {
+        const project: Project = {
+          projectId: params['projectId'],
+          title: params['title'],
+          description: params['description'],
+          image: params['image'],
+          skillTags: params['skillTags']
+        };
+        const projectRef = this.afs.doc<Project>(`projects/${params['projectId']}`);
+
+        return projectRef.update(project);
+      });
   }
 
-  public updateProject(projectId: String, project: Project) {
+  public addProjectStorylineComponent(projectId: string, type: string, data: StorylineParams) {
     const projectRef = this.afs.doc<Project>(`projects/${projectId}`);
-    return projectRef.set(project);
+    const componentsRef = projectRef.collection<StorylineParams>(`/components`);
+    return componentsRef.add({
+        type: type,
+        data: data
+    });
   }
+
 }
