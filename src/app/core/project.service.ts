@@ -27,6 +27,7 @@ export class ProjectService {
     const projectId = this.afs.createId();
     const project: Project = {
       projectId: projectId,
+      rank: params['rank'],
       title: params['title'],
       description: params['description'],
       image: params['image'],
@@ -41,6 +42,7 @@ export class ProjectService {
   public updateProject(params: Object) {
     const project: Project = {
       projectId: params['projectId'],
+      rank: params['rank'],
       title: params['title'],
       description: params['description'],
       image: params['image'],
