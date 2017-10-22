@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-admin-auth-dialog',
   template: `
-    <h2 mat-dialog-title>Admin Sign Up</h2>
+    <h2 mat-dialog-title>{{ data.title }}</h2>
     <div>
     <mat-form-field>
       <input matInput [(ngModel)]="data.email" type="email" placeholder="email">

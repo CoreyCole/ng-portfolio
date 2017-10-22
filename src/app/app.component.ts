@@ -21,7 +21,7 @@ import { AuthService } from './core/auth.service';
     <mat-toolbar color="warn" *ngIf="!adminExists">
       <span>No admin registered</span>
       <span class="spacer"></span>
-      <button mat-raised-button color="primary" (click)="openAdminSingUpDialog()">
+      <button mat-raised-button color="primary" (click)="openAdminSignUpDialog()">
         Login
       </button>
     </mat-toolbar>
@@ -51,6 +51,10 @@ import { AuthService } from './core/auth.service';
       </li>
     </ul>
     <router-outlet></router-outlet>
+    <mat-toolbar color="warn" *ngIf="adminExists">
+      <span class="spacer"></span>
+      <i class="fa fa-lock" aria-hidden="true" (click)="openAdminSignInDialog()"></i>
+    </mat-toolbar>
   `,
   styleUrls: ['./app.component.scss']
 })
@@ -69,12 +73,13 @@ export class AppComponent {
               private dialog: MatDialog) {
     this.items = db.collection('items').valueChanges();
     this.auth.adminUserExists().subscribe(adminExists => this.adminExists = adminExists);
+    this.auth.adminLoggedIn().subscribe(value => console.log(value));
   }
 
-  public openAdminSingUpDialog() {
+  public openAdminSignUpDialog() {
     const dialogRef = this.dialog.open(AdminAuthDialogComponent, {
       width: '250px',
-      data: { email: this.email, password: this.password }
+      data: { title: 'Admin Sign Up', email: this.email, password: this.password }
     });
 
     dialogRef.afterClosed().subscribe(data => {
@@ -84,6 +89,21 @@ export class AppComponent {
           this.auth.saveAdminUid(user.uid);
           this.error = null;
         })
+        .catch(err => {
+          this.error = err;
+          console.error(err);
+        });
+    });
+  }
+
+  public openAdminSignInDialog() {
+    const dialogRef = this.dialog.open(AdminAuthDialogComponent, {
+      width: '250px',
+      data: { title: 'Admin Sign In', email: this.email, password: this.password }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      this.auth.adminSignIn(data.email, data.password)
         .catch(err => {
           this.error = err;
           console.error(err);

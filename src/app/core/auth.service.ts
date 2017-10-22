@@ -33,6 +33,10 @@ export class AuthService {
       });
   }
 
+  public adminSignIn(email: string, password: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
   public adminSignUp(email: string, password: string): Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
   }
@@ -49,12 +53,12 @@ export class AuthService {
   }
 
   public adminLoggedIn(): Observable<boolean> {
-    const currentUserUid = this.afAuth.auth.currentUser.uid;
+    const currentUserUid = this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.uid;
     const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
 
     return adminConfigDocRef.valueChanges()
       .map(config =>
-        !!config && !!config.adminUid && ( config.adminUid === currentUserUid ));
+        config && config.adminUid && currentUserUid && ( config.adminUid === currentUserUid ));
   }
 
   public adminLogin(email: string, password: string): Promise<any> {
