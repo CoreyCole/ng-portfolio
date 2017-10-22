@@ -23,7 +23,6 @@ import { ProjectPageComponent } from './pages/project-page/project-page.componen
 import { EditProjectPageComponent } from './pages/edit-project-page/edit-project-page.component';
 
 // components
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { IntroCardComponent } from './components/intro-card/intro-card.component';
 import { ProjectGalleryComponent } from './components/project-gallery/project-gallery.component';
 import { ProjectPreviewCardComponent } from './components/project-preview-card/project-preview-card.component';
@@ -31,6 +30,7 @@ import { ProjectHeaderComponent } from './components/project-header/project-head
 import { ProjectStorylineComponent } from './components/project-storyline/project-storyline.component';
 import { ProjectStorylineComponentComponent } from './components/project-storyline-component/project-storyline-component.component';
 import { AdminAuthDialogComponent } from './components/admin-auth-dialog/admin-auth-dialog.component';
+import { ScrollToolbarComponent } from './components/scroll-toolbar/scroll-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -40,14 +40,14 @@ import { AdminAuthDialogComponent } from './components/admin-auth-dialog/admin-a
     ProjectPageComponent,
     EditProjectPageComponent,
     // components
-    NavbarComponent,
     IntroCardComponent,
     ProjectGalleryComponent,
     ProjectPreviewCardComponent,
     ProjectHeaderComponent,
     ProjectStorylineComponent,
     ProjectStorylineComponentComponent,
-    AdminAuthDialogComponent
+    AdminAuthDialogComponent,
+    ScrollToolbarComponent
   ],
   imports: [
     BrowserModule,

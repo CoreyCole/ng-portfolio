@@ -25,7 +25,7 @@ import { AuthService } from './core/auth.service';
         Login
       </button>
     </mat-toolbar>
-    <mat-toolbar color="primary"></mat-toolbar>
+    <app-scroll-toolbar title="Corey Cole"></app-scroll-toolbar>
     <h3>Basic Buttons</h3>
     <div>
       <button mat-button>Basic</button>
@@ -53,7 +53,8 @@ import { AuthService } from './core/auth.service';
     <router-outlet></router-outlet>
     <mat-toolbar color="warn" *ngIf="adminExists">
       <span class="spacer"></span>
-      <i class="fa fa-lock" aria-hidden="true" (click)="openAdminSignInDialog()"></i>
+      <i class="fa fa-lock" aria-hidden="true" *ngIf="!adminIsLoggedIn" (click)="openAdminSignInDialog()"></i>
+      <i class="fa fa-unlock-alt" aria-hidden="true" *ngIf="adminIsLoggedIn" (click)="auth.signOut()"></i>
     </mat-toolbar>
   `,
   styleUrls: ['./app.component.scss']
@@ -64,6 +65,7 @@ export class AppComponent {
   public password: string;
   public error: string;
   public adminExists = true;
+  public adminIsLoggedIn = false;
 
   // for testing
   public items: Observable<any[]>;
@@ -73,7 +75,7 @@ export class AppComponent {
               private dialog: MatDialog) {
     this.items = db.collection('items').valueChanges();
     this.auth.adminUserExists().subscribe(adminExists => this.adminExists = adminExists);
-    this.auth.adminLoggedIn().subscribe(value => console.log(value));
+    this.auth.adminLoggedIn().subscribe(adminIsLoggedIn => this.adminIsLoggedIn = adminIsLoggedIn);
   }
 
   public openAdminSignUpDialog() {

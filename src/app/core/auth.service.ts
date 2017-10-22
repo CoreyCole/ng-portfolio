@@ -9,6 +9,7 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
 
 import { User } from '../../models/user';
 import { AdminConfig } from '../../models/admin-config';
@@ -33,6 +34,10 @@ export class AuthService {
       });
   }
 
+  public signOut() {
+    this.afAuth.auth.signOut();
+  }
+
   public adminSignIn(email: string, password: string): Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
@@ -53,12 +58,13 @@ export class AuthService {
   }
 
   public adminLoggedIn(): Observable<boolean> {
-    const currentUserUid = this.afAuth.auth.currentUser && this.afAuth.auth.currentUser.uid;
+    const currentUserUid = this.afAuth.auth.currentUser ? this.afAuth.auth.currentUser.uid : null;
     const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
 
     return adminConfigDocRef.valueChanges()
-      .map(config =>
-        config && config.adminUid && currentUserUid && ( config.adminUid === currentUserUid ));
+      .mergeMap(config =>
+        this.afAuth.authState.map(authState =>
+          config && config.adminUid && authState && ( config.adminUid === authState.uid )));
   }
 
   public adminLogin(email: string, password: string): Promise<any> {
