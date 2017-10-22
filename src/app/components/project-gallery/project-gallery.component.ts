@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-project-gallery',
+  styleUrls: ['./project-gallery.component.scss'],
   template: `
     <p>
       project-gallery works!
     </p>
-  `,
-  styleUrls: ['./project-gallery.component.scss']
+  `
 })
 export class ProjectGalleryComponent implements OnInit {
 
