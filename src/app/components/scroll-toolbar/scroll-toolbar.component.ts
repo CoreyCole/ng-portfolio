@@ -4,7 +4,6 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
   selector: 'app-scroll-toolbar',
   styleUrls: ['./scroll-toolbar.component.scss'],
   template: `
-    <div class="spacer"></div>
     <mat-toolbar class="sticky" color="primary">
       <a routerLink="/">
         <app-logo></app-logo>

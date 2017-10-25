@@ -20,19 +20,19 @@ import { AuthService } from './core/auth.service';
   styleUrls: ['./app.component.scss'],
   template: `
     <div class="app-root">
-      <mat-toolbar color="warn" *ngIf="error">
-        {{ error }}
-      </mat-toolbar>
-      <mat-toolbar color="warn" *ngIf="!adminExists">
-        <span>No admin registered</span>
-        <span class="spacer"></span>
-        <button mat-raised-button color="primary" (click)="openAdminSignUpDialog()">
-          Login
-        </button>
-      </mat-toolbar>
       <app-scroll-toolbar title="Corey Cole"></app-scroll-toolbar>
       <router-outlet></router-outlet>
       <footer class="footer">
+        <mat-toolbar color="warn" *ngIf="error">
+          {{ error }}
+        </mat-toolbar>
+        <mat-toolbar color="warn" *ngIf="!adminExists">
+          <span>No admin registered</span>
+          <span class="spacer"></span>
+          <button mat-raised-button color="primary" (click)="openAdminSignUpDialog()">
+            Login
+          </button>
+        </mat-toolbar>
         <mat-toolbar color="warn" *ngIf="adminExists">
           <span class="spacer"></span>
           <span *ngIf="adminIsLoggedIn && onHomePage">

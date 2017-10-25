@@ -10,7 +10,7 @@ $ firebase init
 $ firebase deploy
 ```
 
-Add firebase config file to `src/core/firebase-config.ts`
+Add firebase config file to `src/environments/firebase-config.ts`
 ```javascript
 export const firebaseConfig = {
   apiKey: '<your-key>',
@@ -23,8 +23,7 @@ export const firebaseConfig = {
 ```
 
 Enable firestore database
-
 Enable email and password authentication (for your admin user)
 Enable anonymous authentication (for your guests)
 
-If you want more UI components from angular material library, import them in `material.module.ts`
+If you want more UI components from angular material library, import them in `src/core/material.module.ts`
