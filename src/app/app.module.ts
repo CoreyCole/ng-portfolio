@@ -20,7 +20,7 @@ import { TagInputModule } from 'ngx-chips';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { firebaseConfig } from './core/firebase-config';
+import { firebaseConfig } from '../environments/firebase-config';
 
 // pages
 import { AppRoutingModule } from './pages/routing.module';
