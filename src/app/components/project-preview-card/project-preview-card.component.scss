@@ -1,0 +1,16 @@
+mat-card {
+  width: 256px;
+  height: 256px;
+}
+
+h1 {
+  font-size: 14pt;
+  text-align: center;
+  margin: 0;
+}
+
+img {
+  height: 256px;
+  object-fit: none; /* Do not scale the image */
+  object-position: center; /* Center the image within the element */
+}
