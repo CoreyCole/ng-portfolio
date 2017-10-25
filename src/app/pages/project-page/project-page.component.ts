@@ -13,26 +13,26 @@ import { ProjectService } from '../../core/project.service';
   styleUrls: ['./project-page.component.scss'],
   template: `
     <div class="header push-up">
-      <app-project-header [project]="project | async"></app-project-header>
+      <app-project-header [project]="project$ | async"></app-project-header>
     </div>
     <div class="storyline">
-      <app-project-storyline [components]="storyline | async"></app-project-storyline>
+      <app-project-storyline [components]="storyline$ | async"></app-project-storyline>
     </div>
   `
 })
 export class ProjectPageComponent implements OnInit {
 
-  public project: Observable<Project>;
-  public storyline: Observable<StorylineParams[]>;
+  public project$: Observable<Project>;
+  public storyline$: Observable<StorylineParams[]>;
 
   constructor(private afs: AngularFirestore,
               private route: ActivatedRoute,
               private projectService: ProjectService) { }
 
   ngOnInit() {
-    this.project = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
+    this.project$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
       .mergeMap(projectId => this.projectService.getProject(projectId));
-    this.storyline = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
+    this.storyline$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
       .mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId));
   }
 
