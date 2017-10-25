@@ -13,7 +13,7 @@ export class ProjectService {
               private auth: AuthService) { }
 
   public getProjects(): Observable<Project[]> {
-    const projectsCollection = this.afs.collection<Project>('projects');
+    const projectsCollection = this.afs.collection<Project>('projects', ref => ref.orderBy('rank'));
     return projectsCollection.valueChanges();
   }
 
@@ -60,7 +60,7 @@ export class ProjectService {
   }
 
   public getProjectStorylineComponents(projectId: string) {
-    const componentsRef = this.afs.collection<StorylineParams>(`projects/${projectId}/components`);
+    const componentsRef = this.afs.collection<StorylineParams>(`projects/${projectId}/components`, ref => ref.orderBy('rank'));
     return componentsRef.valueChanges();
   }
 
