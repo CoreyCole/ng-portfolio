@@ -6,10 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
+import { Observable, of } from 'rxjs';
+import { switchMap, mergeMap, map } from 'rxjs/operators';
 
 import { User } from '../../models/user';
 import { AdminConfig } from '../../models/admin-config';
@@ -25,13 +23,15 @@ export class AuthService {
 
     // get auth data, then get firestore user document || null
     this.user = this.afAuth.authState
-      .switchMap(user => {
-        if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-        } else {
-          return Observable.of(null);
-        }
-      });
+      .pipe(
+        switchMap(user => {
+          if (user) {
+            return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          } else {
+            return of(null);
+          }
+        })
+      );
   }
 
   public signOut() {
@@ -54,7 +54,9 @@ export class AuthService {
   public adminUserExists(): Observable<boolean> {
     const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
     return adminConfigDocRef.valueChanges()
-      .map(config => !!config && !!config.adminUid);
+      .pipe(
+        map(config => !!config && !!config.adminUid)
+      );
   }
 
   public adminLoggedIn(): Observable<boolean> {
@@ -62,9 +64,13 @@ export class AuthService {
     const adminConfigDocRef = this.afs.doc<AdminConfig>('config/admin');
 
     return adminConfigDocRef.valueChanges()
-      .mergeMap(config =>
-        this.afAuth.authState.map(authState =>
-          config && config.adminUid && authState && ( config.adminUid === authState.uid )));
+      .pipe(
+        mergeMap(config =>
+          this.afAuth.authState.pipe(
+            map(authState =>
+                  config && config.adminUid && authState && ( config.adminUid === authState.uid )))
+          )
+      );
   }
 
   public adminLogin(email: string, password: string): Promise<any> {

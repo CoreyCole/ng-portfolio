@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/reduce';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 // angular material
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -34,6 +32,21 @@ import { AuthService } from './core/auth.service';
           </button>
         </mat-toolbar>
         <mat-toolbar color="warn" *ngIf="adminExists">
+          <a href="https://github.com/coreycole/ng-portfolio" class="source-link">
+            <span><i class="fa fa-github"></i>ng-portfolio</span>
+          </a>
+          <span class="github-btn">
+            <a class="github-button" href="https://github.com/coreycole/ng-portfolio"
+                data-icon="octicon-star" data-show-count="true" aria-label="Star coreycole/ng-portfolio on GitHub">
+              Star
+            </a>
+          </span>
+          <span class="github-btn">
+            <a class="github-button" href="https://github.com/coreycole/ng-portfolio/fork"
+                data-icon="octicon-repo-forked" data-show-count="true" aria-label="Fork coreycole/ng-portfolio on GitHub">
+              Fork
+            </a>
+          </span>
           <span class="spacer"></span>
           <span *ngIf="adminIsLoggedIn && onHomePage">
             <button mat-raised-button color="primary" routerLink="/edit/new">Create Project</button>
@@ -71,9 +84,11 @@ export class AppComponent {
     this.auth.adminLoggedIn()
       .subscribe(adminIsLoggedIn => this.adminIsLoggedIn = adminIsLoggedIn);
     this.router.events
-      .filter(event => event instanceof RoutesRecognized)
-      .map(event => event['url'])
-      .map(path => (path === '/') as boolean)
+      .pipe(
+        filter(event => event instanceof RoutesRecognized),
+        map(event => event['url']),
+        map(path => (path === '/') as boolean)
+      )
       .subscribe(onHomePage => this.onHomePage = onHomePage);
   }
 

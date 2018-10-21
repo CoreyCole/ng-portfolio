@@ -1,9 +1,11 @@
 mat-card {
   background-color: #fafafa;
   color: #0F0F0F;
+  margin-top: 32px;
   margin-left: auto;
   margin-right: auto;
   max-width: 500px;
+  z-index: 10;
 }
 
 div.content {
@@ -53,7 +55,7 @@ div.profile-description {
     margin-right: auto;
     height: auto;
     width: auto;
-    vertical-align: middle;    
+    vertical-align: middle;
     margin-bottom: 32px;
     max-width: 100%;
     max-height: 256px;

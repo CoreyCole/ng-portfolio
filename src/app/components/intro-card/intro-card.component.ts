@@ -6,18 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./intro-card.component.scss'],
   template: `
     <mat-card>
-      <img mat-card-image src="https://scontent-sea1-1.xx.fbcdn.net/v/t31.0-8/14137994_10205844544986449_8679723115539772464_o.jpg?oh=b9c4dc3de2332f39cfa6f92277aef268&oe=5A7F428E" alt="introduction image">
+      <img mat-card-image src="https://firebasestorage.googleapis.com/v0/b/corey-portfolio.appspot.com/o/tech-profile-pic.jpg?alt=media&token=f3f920f3-849d-4b8a-bc29-b930b0387ec8" alt="introduction image">
       <div class="content">
         <div class="profile-info">
           <h1 class="profile-title">
             Corey Cole
           </h1>
           <h2 class="profile-position">
-            Problem Finder, Problem Solver, Solution Implementer
+            Leader, Full-Stack Engineer, Entrepreneur
           </h2>
         </div>
         <div class="profile-description">
-          I'm currently seeking new job opportunities.
+          I'm happily employed and I'm not pursuing new opportunities.
         </div>
       </div>
     </mat-card>

@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/take';
+import { Observable } from 'rxjs';
+import { map, mergeMap, filter, take } from 'rxjs/operators';
 
 import { ProjectService } from '../../core/project.service';
 import { Project } from '../../../models/project';
@@ -75,23 +74,29 @@ export class EditProjectPageComponent implements OnInit {
       skillTags: [],
       components: []
     };
-    this.project$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
-      .mergeMap(projectId => this.projectService.getProject(projectId));
-    this.storyline$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
-      .mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId));
+    this.project$ = this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('projectId')),
+      mergeMap(projectId => this.projectService.getProject(projectId))
+    );
+    this.storyline$ = this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('projectId')),
+      mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId))
+    );
 
-    this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
-      .subscribe(projectId => this.currentProject.projectId = projectId);
-    this.project$
-      .filter(project => !!project)
-      .subscribe(project => this.currentProject = project);
+    this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('projectId'))
+    ).subscribe(projectId => this.currentProject.projectId = projectId);
+    this.project$.pipe(
+      filter(project => !!project)
+    ).subscribe(project => this.currentProject = project);
   }
 
   public createProject() {
     this.afs.collection<Project>('projects/').valueChanges()
-      .map(projects => projects.length)
-      .take(1)
-      .subscribe(rank => {
+      .pipe(
+        map(projects => projects.length),
+        take(1)
+      ).subscribe(rank => {
         this.currentProject.rank = rank;
         const newProjectId = this.projectService.createProject(this.currentProject);
         this.router.navigate([`edit/${newProjectId}`]);
@@ -108,9 +113,10 @@ export class EditProjectPageComponent implements OnInit {
 
   public saveStorylineComponent(newStorylineParams) {
     this.storyline$
-      .map(components => components.length)
-      .take(1)
-      .subscribe(rank => {
+      .pipe(
+        map(components => components.length),
+        take(1)
+      ).subscribe(rank => {
         newStorylineParams.rank = rank;
         this.projectService.addProjectStorylineComponent(this.currentProject.projectId, newStorylineParams);
       });
