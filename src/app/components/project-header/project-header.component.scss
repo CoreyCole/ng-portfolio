@@ -4,6 +4,8 @@ mat-card {
   margin-left: auto;
   margin-right: auto;
   max-width: 1024px;
+  z-index: 10;
+  margin-top: 32px;
 }
 
 div.img {
@@ -61,7 +63,7 @@ div.description {
     margin-right: auto;
     height: auto;
     width: auto;
-    vertical-align: middle;    
+    vertical-align: middle;
     margin-bottom: 32px;
     max-width: 100%;
     max-height: 256px;
