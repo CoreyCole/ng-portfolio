@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { Project } from '../../../models/project';
 import { StorylineParams } from '../../../models/storyline-params';
@@ -30,10 +31,14 @@ export class ProjectPageComponent implements OnInit {
               private projectService: ProjectService) { }
 
   ngOnInit() {
-    this.project$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
-      .mergeMap(projectId => this.projectService.getProject(projectId));
-    this.storyline$ = this.route.paramMap.map((params: ParamMap) => params.get('projectId'))
-      .mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId));
+    this.project$ = this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('projectId')),
+      mergeMap(projectId => this.projectService.getProject(projectId))
+    );
+    this.storyline$ = this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('projectId')),
+      mergeMap(projectId => this.projectService.getProjectStorylineComponents(projectId))
+    );
   }
 
 }
